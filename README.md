@@ -15,13 +15,27 @@ Replace `<valid-admin-token>` with a valid JWT for a user in the `Admin` role.
 ### Admin token endpoint
 
 You can request a token for an admin user by calling the `/api/auth/admin-token`
-endpoint with admin credentials:
+endpoint with admin credentials. The endpoint returns an `AuthResponseDto` object containing the JWT token and the logged in user's information:
 
 ```
 POST /api/auth/admin-token
 {
   "email": "admin@example.com",
   "password": "AdminPass123"
+}
+```
+
+Example response:
+
+```
+{
+  "token": "<jwt-token>",
+  "user": {
+    "id": 1,
+    "fullName": "Admin User",
+    "email": "admin@example.com",
+    "role": "Admin"
+  }
 }
 ```
 
