@@ -1,6 +1,43 @@
 @EcommerceBackend_HostAddress = http://localhost:5103
 
+### Get weather forecast (sample request)
 GET {{EcommerceBackend_HostAddress}}/weatherforecast/
 Accept: application/json
 
-###
+### Login to obtain JWT token
+# @name login
+POST {{EcommerceBackend_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "AdminPass123"
+}
+
+### Add a new product using the token from the login request
+POST {{EcommerceBackend_HostAddress}}/api/products
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: multipart/form-data; boundary=--boundary
+
+----boundary
+Content-Disposition: form-data; name="Name"
+
+Sample Product
+----boundary
+Content-Disposition: form-data; name="Description"
+
+Sample description
+----boundary
+Content-Disposition: form-data; name="Price"
+
+9.99
+----boundary
+Content-Disposition: form-data; name="Stock"
+
+10
+----boundary
+Content-Disposition: form-data; name="Image"; filename="example.png"
+Content-Type: image/png
+
+< ./example.png
+----boundary--
