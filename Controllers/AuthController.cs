@@ -39,5 +39,15 @@ namespace EcommerceBackend.Controllers
             if (result == null) return Unauthorized();
             return Ok(result);
         }
+
+        [HttpPost("admin-token")]
+        [AllowAnonymous]
+        public async Task<ActionResult<AuthResponseDto>> GetAdminToken(AuthDto dto)
+        {
+            var result = await _authService.LoginAsync(dto);
+            if (result == null) return Unauthorized();
+            if (result.User.Role != "Admin") return Forbid();
+            return Ok(result);
+        }
     }
 }
